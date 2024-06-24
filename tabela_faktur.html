@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>Tabela Faktur VAT</title>
+    <style>
+        .highlight {
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tabela Faktur VAT</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Lp.</th>
+                <th>Opis</th>
+                <th>Zadanie zdalne</th>
+                <th>MPK</th>
+                <th>Kwota Netto</th>
+                <th>Ilość</th>
+                <th>VAT</th>
+                <th>Kwota Brutto</th>
+                <th>Wartość Netto</th>
+                <th>Wartość Brutto</th>
+            </tr>
+        </thead>
+        <tbody id="faktury-tbody">
+            <!-- Przykładowe wiersze -->
+            <tr>
+                <td>1</td>
+                <td>Usługa programistyczna</td>
+                <td>Zadanie A</td>
+                <td>100</td>
+                <td><input type="number" value="5000" class="netto"></td>
+                <td><input type="number" value="1" class="ilosc"></td>
+                <td>
+                    <select class="vat">
+                        <option value="0.23">23%</option>
+                        <option value="0.08">8%</option>
+                        <option value="0.03">3%</option>
+                        <option value="0">0%</option>
+                    </select>
+                </td>
+                <td class="brutto">6150</td>
+                <td class="wartosc-netto">5000</td>
+                <td class="wartosc-brutto">6150</td>
+            </tr>
+
+<!--tymczasowe statyczne wartości -->
+            <tr>
+                <td>2</td>
+                <td>Usługa programistyczna</td>
+                <td>Zadanie B</td>
+                <td>100</td>
+                <td><input type="number" value="5000" class="netto"></td>
+                <td><input type="number" value="1" class="ilosc"></td>
+                <td>
+                    <select class="vat">
+                        <option value="0.23">23%</option>
+                        <option value="0.08">8%</option>
+                        <option value="0.03">3%</option>
+                        <option value="0">0%</option>
+                    </select>
+                </td>
+                <td class="brutto">6150</td>
+                <td class="wartosc-netto">5000</td>
+                <td class="wartosc-brutto">6150</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td>Usługa programistyczna</td>
+                <td>Zadanie C</td>
+                <td>100</td>
+                <td><input type="number" value="5000" class="netto"></td>
+                <td><input type="number" value="1" class="ilosc"></td>
+                <td>
+                    <select class="vat">
+                        <option value="0.23">23%</option>
+                        <option value="0.08">8%</option>
+                        <option value="0.03">3%</option>
+                        <option value="0">0%</option>
+                    </select>
+                </td>
+                <td class="brutto">6150</td>
+                <td class="wartosc-netto">5000</td>
+                <td class="wartosc-brutto">6150</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>Usługa programistyczna</td>
+                <td>Zadanie D</td>
+                <td>100</td>
+                <td><input type="number" value="5000" class="netto"></td>
+                <td><input type="number" value="1" class="ilosc"></td>
+                <td>
+                    <select class="vat">
+                        <option value="0.23">23%</option>
+                        <option value="0.08">8%</option>
+                        <option value="0.03">3%</option>
+                        <option value="0">0%</option>
+                    </select>
+                </td>
+                <td class="brutto">6150</td>
+                <td class="wartosc-netto">5000</td>
+                <td class="wartosc-brutto">6150</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td>Usługa programistyczna</td>
+                <td>Zadanie E</td>
+                <td>100</td>
+                <td><input type="number" value="5000" class="netto"></td>
+                <td><input type="number" value="1" class="ilosc"></td>
+                <td>
+                    <select class="vat">
+                        <option value="0.23">23%</option>
+                        <option value="0.08">8%</option>
+                        <option value="0.03">3%</option>
+                        <option value="0">0%</option>
+                    </select>
+                </td>
+                <td class="brutto">6150</td>
+                <td class="wartosc-netto">5000</td>
+                <td class="wartosc-brutto">6150</td>
+            </tr>
+
+            
+           
+        </tbody>
+    </table>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
