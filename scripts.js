@@ -98,3 +98,60 @@ function highlightAbove1000() {
 document.addEventListener('DOMContentLoaded', function() {
     registerEventListeners();
 });
+
+
+
+function addKontrahent() {
+    const form = document.getElementById('kontrahent-form');
+    const formData = new FormData(form);
+    formData.append('action', 'add');
+    fetch('dane_kontrahentow.php', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.text()).then(data => {
+        document.body.innerHTML = data; // Aktualizacja całej strony po dodaniu kontrahenta
+    });
+}
+
+function editKontrahent() {
+    const form = document.getElementById('kontrahent-form');
+    const formData = new FormData(form);
+    formData.append('action', 'edit');
+    fetch('dane_kontrahentow.php', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.text()).then(data => {
+        document.body.innerHTML = data; // Aktualizacja całej strony po edycji kontrahenta
+    });
+}
+
+function deleteKontrahent() {
+    const form = document.getElementById('kontrahent-form');
+    const formData = new FormData(form);
+    formData.append('action', 'delete');
+    fetch('dane_kontrahentow.php', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.text()).then(data => {
+        document.body.innerHTML = data; // Aktualizacja całej strony po usunięciu kontrahenta
+    });
+}
+
+function loadKontrahent(id) {
+    const form = document.getElementById('kontrahent-form');
+    const formData = new FormData(form);
+    formData.append('id', id);
+    fetch('load_kontrahent.php', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.json()).then(data => {
+        document.getElementById('kontrahent-id').value = data.id;
+        document.getElementById('nip').value = data.nip;
+        document.getElementById('regon').value = data.regon;
+        document.getElementById('nazwa').value = data.nazwa;
+        document.getElementById('ulica').value = data.ulica;
+        document.getElementById('numer_domu').value = data.numer_domu;
+        document.getElementById('numer_mieszkania').value = data.numer_mieszkania;
+        document.getElementById('czy_platnik_vat').checked = data.czy_platnik_vat === "1";
+    });
+}
