@@ -1,8 +1,6 @@
 // Register event listeners after DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
     registerEventListeners();
-
-        // Load initial page (dane_kontrahentow.php)
         loadPage('dane_kontrahentow.php');
 });
 
@@ -127,6 +125,7 @@ function loadAddForm() {
         .then(data => {
             document.getElementById('Prawy').innerHTML = data;
             registerEventListeners();
+            updateTableColors();
         })
         .catch(error => console.error('Błąd wczytywania formularza dodawania:', error));
 }
@@ -137,11 +136,10 @@ function loadEditForm(id) {
         .then(response => response.text())
         .then(data => {
             document.getElementById('Prawy').innerHTML = data;
-            // Add event listener for form submission
             const editForm = document.querySelector('#Prawy form');
             if (editForm) {
                 editForm.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent default form submission
+                    event.preventDefault();
                     const formData = new FormData(this);
                     const url = this.action;
 
