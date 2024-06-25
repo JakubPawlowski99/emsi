@@ -1,50 +1,77 @@
-// Define registerEventListeners function in global scope
-function registerEventListeners() {
-    // Przechwytywanie kliknięcia przycisku "Aktualizuj kolory"
-    var updateColorsButton = document.getElementById('updateColorsButton');
-    if (updateColorsButton) {
-        updateColorsButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default form submission
-            updateTableColors();
-        });
-    }
+// Register event listeners after DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    registerEventListeners();
 
-    // Przechwytywanie zmiany koloru 1
-    var color1 = document.getElementById('color1');
-    if (color1) {
-        color1.addEventListener('change', function() {
-            console.log("Zmiana koloru 1");
-            updateTableColors();
-        });
-    }
+        // Load initial page (dane_kontrahentow.php)
+        loadPage('dane_kontrahentow.php');
+});
 
-    // Przechwytywanie zmiany koloru 2
-    var color2 = document.getElementById('color2');
-    if (color2) {
-        color2.addEventListener('change', function() {
-            console.log("Zmiana koloru 2");
-            updateTableColors();
-        });
-    }
-
-
-
-    // Początkowa aktualizacja po załadowaniu strony
-    document.querySelectorAll('.netto, .ilosc, .vat').forEach(input => {
-        input.addEventListener('input', updateRow);
-    });
-
-}
-
-// Function to load content into #Prawy element
+// Function to load page into #Prawy element
 function loadPage(url) {
     fetch(url)
         .then(response => response.text())
         .then(data => {
             document.getElementById('Prawy').innerHTML = data;
+            // After loading new content, re-register event listeners
             registerEventListeners();
         })
-        .catch(error => console.error('Error loading page:', error));
+        .catch(error => console.error('Błąd wczytywania strony:', error));
+}
+
+
+// Define registerEventListeners function in global scope
+function registerEventListeners() {
+    // Event listener for color changes (if applicable)
+    var color1 = document.getElementById('color1');
+    if (color1) {
+        color1.addEventListener('change', function() {
+            console.log("Color 1 changed");
+            updateTableColors();
+        });
+    }
+
+    var color2 = document.getElementById('color2');
+    if (color2) {
+        color2.addEventListener('change', function() {
+            console.log("Color 2 changed");
+            updateTableColors();
+        });
+    }
+
+    // Event listeners for input changes (if applicable)
+    document.querySelectorAll('.netto, .ilosc, .vat').forEach(input => {
+        input.addEventListener('input', updateRow);
+    });
+
+    // Event listener for Add Contractor button
+    var addContractorButton = document.getElementById('addContractorButton');
+    if (addContractorButton) {
+        addContractorButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            loadAddForm();
+        });
+    }
+
+    // Event listeners for Edit buttons
+    var editButtons = document.querySelectorAll('.editContractorButton');
+    editButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log("Edit button clicked for ID:", this.dataset.id);
+            var id = this.dataset.id;
+            loadEditForm(id);
+        });
+    });
+
+    // Event listeners for Delete buttons
+    var deleteButtons = document.querySelectorAll('.deleteContractorButton');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var id = this.dataset.id;
+            deleteContractor(id);
+        });
+    });
 }
 
 // Function to update table colors
@@ -94,64 +121,58 @@ function highlightAbove1000() {
     });
 }
 
-// Register event listeners after DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
-    registerEventListeners();
-});
-
-
-
-function addKontrahent() {
-    const form = document.getElementById('kontrahent-form');
-    const formData = new FormData(form);
-    formData.append('action', 'add');
-    fetch('dane_kontrahentow.php', {
-        method: 'POST',
-        body: formData
-    }).then(response => response.text()).then(data => {
-        document.body.innerHTML = data; // Aktualizacja całej strony po dodaniu kontrahenta
-    });
+function loadAddForm() {
+    fetch('add_contractor.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('Prawy').innerHTML = data;
+            registerEventListeners();
+        })
+        .catch(error => console.error('Błąd wczytywania formularza dodawania:', error));
 }
 
-function editKontrahent() {
-    const form = document.getElementById('kontrahent-form');
-    const formData = new FormData(form);
-    formData.append('action', 'edit');
-    fetch('dane_kontrahentow.php', {
-        method: 'POST',
-        body: formData
-    }).then(response => response.text()).then(data => {
-        document.body.innerHTML = data; // Aktualizacja całej strony po edycji kontrahenta
-    });
+// Function to load form for editing a contractor
+function loadEditForm(id) {
+    fetch('edit_contractor.php?id=' + id)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('Prawy').innerHTML = data;
+            // Add event listener for form submission
+            const editForm = document.querySelector('#Prawy form');
+            if (editForm) {
+                editForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+                    const formData = new FormData(this);
+                    const url = this.action;
+
+                    fetch(url, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Reload the contractor list after successful update
+                            loadPage('dane_kontrahentow.php');
+                        } else {
+                            console.error('Błąd podczas aktualizacji kontrahenta.');
+                        }
+                    })
+                    .catch(error => console.error('Błąd podczas wysyłania żądania:', error));
+                });
+            }
+        })
+        .catch(error => console.error('Błąd wczytywania formularza edycji:', error));
 }
 
-function deleteKontrahent() {
-    const form = document.getElementById('kontrahent-form');
-    const formData = new FormData(form);
-    formData.append('action', 'delete');
-    fetch('dane_kontrahentow.php', {
-        method: 'POST',
-        body: formData
-    }).then(response => response.text()).then(data => {
-        document.body.innerHTML = data; // Aktualizacja całej strony po usunięciu kontrahenta
-    });
+// Function to handle deletion of a contractor
+function deleteContractor(id) {
+    if (confirm("Czy na pewno chcesz usunąć tego kontrahenta?")) {
+        fetch('delete_contractor.php?id=' + id)
+            .then(response => {
+                // Reload the contractor list after deletion
+                loadPage('dane_kontrahentow.php');
+            })
+            .catch(error => console.error('Błąd usuwania kontrahenta:', error));
+    }
 }
 
-function loadKontrahent(id) {
-    const form = document.getElementById('kontrahent-form');
-    const formData = new FormData(form);
-    formData.append('id', id);
-    fetch('load_kontrahent.php', {
-        method: 'POST',
-        body: formData
-    }).then(response => response.json()).then(data => {
-        document.getElementById('kontrahent-id').value = data.id;
-        document.getElementById('nip').value = data.nip;
-        document.getElementById('regon').value = data.regon;
-        document.getElementById('nazwa').value = data.nazwa;
-        document.getElementById('ulica').value = data.ulica;
-        document.getElementById('numer_domu').value = data.numer_domu;
-        document.getElementById('numer_mieszkania').value = data.numer_mieszkania;
-        document.getElementById('czy_platnik_vat').checked = data.czy_platnik_vat === "1";
-    });
-}
