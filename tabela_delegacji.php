@@ -5,11 +5,6 @@ $sql = "SELECT id, imie_nazwisko, data_od, data_do, miejsce_wyjazdu, miejsce_prz
 $result = $conn->query($sql);
 
 
-// Wyświetlenie samego wyniku zapytania (dla celów diagnostycznych)
-// echo "<pre>";
-// var_dump($result);
-// echo "</pre>";
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
