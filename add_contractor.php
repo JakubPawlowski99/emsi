@@ -30,10 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <form action="add_contractor.php" method="POST">
     <label>NIP:</label><br>
-    <input type="text" name="nip"><br>
+    <input type="text" name="nip" pattern="[0-9]+" title="NIP should only contain numbers"><br>
 
     <label>REGON:</label><br>
-    <input type="text" name="regon"><br>
+    <input type="text" name="regon" pattern="[0-9]+" title="REGON should only contain numbers"><br>
 
     <label>Nazwa:</label><br>
     <input type="text" name="nazwa"><br>

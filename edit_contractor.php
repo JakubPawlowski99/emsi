@@ -16,10 +16,10 @@ if ($result->num_rows > 0) {
     <h2>Edytuj kontrahenta</h2>
     <form action="update_contractor.php?id=<?php echo $id; ?>" method="POST">
         <label>NIP:</label><br>
-        <input type="text" name="nip" value="<?php echo htmlspecialchars($row['nip']); ?>"><br>
+        <input type="text" name="nip" pattern="[0-9]+" title="NIP should only contain numbers" value="<?php echo htmlspecialchars($row['nip']); ?>"><br>
         
         <label>REGON:</label><br>
-        <input type="text" name="regon" value="<?php echo htmlspecialchars($row['regon']); ?>"><br>
+        <input type="text" name="regon" pattern="[0-9]+" title="REGON should only contain numbers" value="<?php echo htmlspecialchars($row['regon']); ?>"><br>
         
         <label>Nazwa:</label><br>
         <input type="text" name="nazwa" value="<?php echo htmlspecialchars($row['nazwa']); ?>"><br>
