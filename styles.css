@@ -2,24 +2,26 @@ body {
     font-family: Arial, sans-serif;
     font-size: large;
     margin: 0;
-    padding: 0;
+    display: flex;
+    overflow: hidden;
 }
 
 .container {
     display: flex;
     width: 100%;
-
-    overflow: hidden; /* Prevents content from leaking out of the container */
+    overflow: hidden;
 }
 
 .sidebar {
-    display: flex;
     width: 25%;
-    height: 100vh;
+    height: 100vh; 
+    position: fixed; 
     background-color: #333;
     color: white;
     padding: 10px;
+
 }
+
 
 .sidebar ul {
     list-style-type: none;
@@ -44,12 +46,15 @@ body {
     background-color: #555;
 }
 
+
 .content {
-    
     flex: 1;
-    padding: 10px;
+    height: 100vh;
+    padding: 40px;
+    margin-left: 25%;
     background-color: #f0f0f0;
     overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+    
 }
 /* Style for all buttons */
 button {
